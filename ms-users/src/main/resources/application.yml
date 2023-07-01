@@ -1,0 +1,44 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: ms-users
+  security:
+    oauht2:
+      client:
+        provider:
+          keycloak:
+            token-uri: http://localhost:8080/realms/facturacion-realm/protocol/openid-connect/token
+        registration:
+          keycloak:
+            authorizationGrantType: client_credentials
+            client-id: facturacion-client
+            client-secret: facturacion-secret
+
+eureka:
+  instance:
+    hostname: localhost
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  server:
+    enableSelfPreservation: false
+
+dh:
+  keycloak:
+    serverUrl: http://localhost:8080/
+    realm: master
+    username: admin
+    password: admin
+    clientId: admin-cli
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        application.properties:
